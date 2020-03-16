@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cockroachDB介绍 &mdash; MyCRDB-docs 1.1.0 documentation</title>
+  <title>CockroachDB介绍 &mdash; MyCRDB-docs 1.1.0 documentation</title>
   
 
   
@@ -81,8 +81,17 @@
             
             
               <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">cockroachDB介绍</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">CockroachDB介绍</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id1">什么是CockroachDB？</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">CockroachDB特新</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">1. 线性拓展</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">2. 强一致性</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">3. 高可用性（容错容灾）（自动备份）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">4. 负载均衡</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">5. 跨云端迁移</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">6. 可集群编排（容器管理）</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/index.html">教程</a></li>
@@ -132,7 +141,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>cockroachDB介绍</li>
+      <li>CockroachDB介绍</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -152,11 +161,56 @@
            <div itemprop="articleBody">
             
   <div class="section" id="cockroachdb">
-<h1>cockroachDB介绍<a class="headerlink" href="#cockroachdb" title="Permalink to this headline">¶</a></h1>
+<h1>CockroachDB介绍<a class="headerlink" href="#cockroachdb" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
 <h2>什么是CockroachDB？<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>CockroachDB是一个分布式的SQL数据库。它建立在支持事务且具有强一致性的KV存储引擎的基础之上；能够进行水平拓展；能够在不需要人工干预的情况下，以最小的中断延迟来恢复硬盘、机器、机架乃至数据中心级别的故障；能够支持强一致性的ACID事务；能够提供一套用户熟悉的SQL API来组织、管理和查询数据。</p>
 <p>CockroachDB灵感来源于Google的Spanner和F1技术，是一个完全开源的技术实现方案。</p>
+</div>
+<div class="section" id="id2">
+<h2>CockroachDB特新<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>1. 线性拓展<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>可无限添加节点，拓展节点时不用操作别的节点，方便且容易.</p>
+</div></blockquote>
+</div>
+<div class="section" id="id4">
+<h3>2. 强一致性<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>单个Range的多个副本通过Raft协议进行数据同步。</p></li>
+<li><p>序列隔离事务、Raft共识算法写、自定义时钟同步读。</p></li>
+<li><p>MVCC数据模型限制了读效率。</p></li>
+<li><p>当写事务获得大多数节点同意后才能提交。</p></li>
+<li><p>使用时间戳保证读写事务互不影响。</p></li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>3. 高可用性（容错容灾）（自动备份）<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>当不超过大多数节点失效时，仍能保持正常读写数据。当某个节点或分区出现故障时，系统能快速高效地检测到集群分离和故障，将领导权转交给能够跟绝大多数节点保持通信的可用节点。</p>
+</div></blockquote>
+</div>
+<div class="section" id="id6">
+<h3>4. 负载均衡<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>均衡各个节点的客户端访问量，避免单个节点处理过多的访问请求以至于影响集群的性能。</p>
+</div></blockquote>
+</div>
+<div class="section" id="id7">
+<h3>5. 跨云端迁移<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>默认情况下数据随机地均衡分布到集群的各个节点。为了实现数据从云端-1迁移到云端-2，可以使用硬限制功能：
+集群中表数据有4个复制区域级别:Cluster,Database,Table,Row.
+内部系统数据对应两个复制区域级别：Cluster,Range.</p>
+</div></blockquote>
+</div>
+<div class="section" id="id8">
+<h3>6. 可集群编排（容器管理）<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><p>可使用开源的Kubernetes编排系统进行管理、部署</p>
+</div></blockquote>
+</div>
 </div>
 </div>
 

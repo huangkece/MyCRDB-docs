@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="疑问与解答" href="../FAQS/index.html" />
-    <link rel="prev" title="cockroachDB介绍" href="../intro/index.html" /> 
+    <link rel="prev" title="CockroachDB介绍" href="../intro/index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -81,10 +81,11 @@
             
             
               <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">cockroachDB介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro/index.html">CockroachDB介绍</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">教程</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">1.搭建环境</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id3">2.启动集群</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">3.架构图</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQS/index.html">疑问与解答</a></li>
@@ -156,18 +157,30 @@
 <h1>教程<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id2">
 <h2>1.搭建环境<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>下载CockroachDB源码并解压
-wget -qO- <a class="reference external" href="https://binaries.cockroachdb.com/cockroach-v2.0.5.src.tgz">https://binaries.cockroachdb.com/cockroach-v2.0.5.src.tgz</a> | tar  xvz
-切换到源码根目录，用make工具进行编译
-cd cockroach-v2.0.5
-make build</p>
+<p>下载CockroachDB源码并解压:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="o">-</span><span class="n">qO</span><span class="o">-</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">binaries</span><span class="o">.</span><span class="n">cockroachdb</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cockroach</span><span class="o">-</span><span class="n">v2</span><span class="o">.</span><span class="mf">0.5</span><span class="o">.</span><span class="n">src</span><span class="o">.</span><span class="n">tgz</span> <span class="o">|</span> <span class="n">tar</span>  <span class="n">xvz</span>
+</pre></div>
+</div>
+<p>切换到源码根目录，用make工具进行编译:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">cockroach</span><span class="o">-</span><span class="n">v2</span><span class="o">.</span><span class="mf">0.5</span>
+<span class="n">make</span> <span class="n">build</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="id3">
 <h2>2.启动集群<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>非安全模式：</p>
-<p>cockroach start –insecure –host=localhost
-安全模式：</p>
-<p>cockroach start –certs-dir=certs –host=localhost –http-host=localhost</p>
+<p>非安全模式:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cockroach</span> <span class="n">start</span> <span class="o">--</span><span class="n">insecure</span> <span class="o">--</span><span class="n">host</span><span class="o">=</span><span class="n">localhost</span>
+</pre></div>
+</div>
+<p>安全模式:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cockroach</span> <span class="n">start</span> <span class="o">--</span><span class="n">certs</span><span class="o">-</span><span class="nb">dir</span><span class="o">=</span><span class="n">certs</span> <span class="o">--</span><span class="n">host</span><span class="o">=</span><span class="n">localhost</span> <span class="o">--</span><span class="n">http</span><span class="o">-</span><span class="n">host</span><span class="o">=</span><span class="n">localhost</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>3.架构图<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<img alt="../_images/db_structure.jpeg" src="../_images/db_structure.jpeg" />
 </div>
 </div>
 
@@ -182,7 +195,7 @@ make build</p>
         <a href="../FAQS/index.html" class="btn btn-neutral float-right" title="疑问与解答" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../intro/index.html" class="btn btn-neutral float-left" title="cockroachDB介绍" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../intro/index.html" class="btn btn-neutral float-left" title="CockroachDB介绍" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
