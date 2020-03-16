@@ -26,5 +26,5 @@
 3.架构图
 -------------------------
 
-.. image:: ../img/db_structure.jpeg
+    .. image:: ../img/db_structure.jpeg
 
