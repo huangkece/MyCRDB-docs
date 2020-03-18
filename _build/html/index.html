@@ -82,7 +82,9 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="intro/index.html">CockroachDB介绍</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="exam/index.html">测试与实验</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQS/index.html">疑问与解答</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">参考链接</a></li>
 </ul>
 
             
@@ -153,7 +155,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="intro/index.html">CockroachDB介绍</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="intro/index.html#id1">什么是CockroachDB？</a></li>
-<li class="toctree-l2"><a class="reference internal" href="intro/index.html#id2">CockroachDB特新</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="intro/index.html#id2">CockroachDB特性</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="intro/index.html#id3">1. 线性拓展</a></li>
 <li class="toctree-l3"><a class="reference internal" href="intro/index.html#id4">2. 强一致性</a></li>
 <li class="toctree-l3"><a class="reference internal" href="intro/index.html#id5">3. 高可用性（容错容灾）（自动备份）</a></li>
@@ -162,17 +164,41 @@
 <li class="toctree-l3"><a class="reference internal" href="intro/index.html#id8">6. 可集群编排（容器管理）</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="intro/index.html#id9">架构图</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">教程</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/index.html#id2">1.搭建环境</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/index.html#id3">2.启动集群</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/index.html#id4">3.架构图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/index.html#id3">2.制作证书</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/index.html#id4">3.启动集群</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/index.html#id5">4.移除和退役节点</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/index.html#tpcc">5.测试tpcc</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="exam/index.html">测试与实验</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="exam/index.html#tpcc">TPCC测试截图与结论</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="exam/index.html#id2">3节点（非负载均衡）连接单节点，100仓库：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exam/index.html#id3">5节点（非负载均衡）连接单节点，100仓库：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exam/index.html#id4">3节点（负载均衡）连接均衡节点，100仓库：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exam/index.html#id5">5节点（负载均衡）连接均衡节点，100仓库：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exam/index.html#id6">3节点（负载均衡）连接均衡节点，300仓库：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exam/index.html#id7">3节点（负载均衡）连接均衡节点，500仓库：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exam/index.html#mysql-100">mysql单机,100仓库：</a></li>
+<li class="toctree-l3"><a class="reference internal" href="exam/index.html#id8">结论：</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="exam/index.html#sql">sql特点比较</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exam/index.html#cockroachdbsql">CockroachDB在sql上的拓展</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="FAQS/index.html">疑问与解答</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="FAQS/index.html#faqs">1.产品相关FAQs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="FAQS/index.html#sqlfaqs">2.SQL相关FAQs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">参考链接</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/index.html#centos7mysql">centos7安装MySQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/index.html#root">给root用户加远程访问连接许可</a></li>
 </ul>
 </li>
 </ul>

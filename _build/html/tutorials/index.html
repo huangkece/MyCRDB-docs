@@ -84,11 +84,14 @@
 <li class="toctree-l1"><a class="reference internal" href="../intro/index.html">CockroachDB介绍</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">教程</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">1.搭建环境</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">2.启动集群</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">3.架构图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">2.制作证书</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">3.启动集群</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">4.移除和退役节点</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tpcc">5.测试tpcc</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../FAQS/index.html">疑问与解答</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">参考链接</a></li>
 </ul>
 
             
@@ -168,7 +171,58 @@
 </div>
 </div>
 <div class="section" id="id3">
-<h2>2.启动集群<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<h2>2.制作证书<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>1.创建本地证书目录:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">certs</span><span class="p">;</span>
+<span class="n">mkdir</span> <span class="n">my_safe_directory</span>
+</pre></div>
+</div>
+<p>2.创建ca证书:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cockroach</span> <span class="n">cert</span> <span class="n">create</span><span class="o">-</span><span class="n">ca</span> \<span class="o">--</span><span class="n">certs</span><span class="o">-</span><span class="nb">dir</span><span class="o">=</span><span class="n">certs</span> \<span class="o">--</span><span class="n">ca</span><span class="o">-</span><span class="n">key</span><span class="o">=</span><span class="n">my</span><span class="o">-</span><span class="n">safe</span><span class="o">-</span><span class="n">directory</span><span class="o">/</span><span class="n">ca</span><span class="o">.</span><span class="n">key</span>
+</pre></div>
+</div>
+<p>3.创建节点证书:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cockroach</span> <span class="n">cert</span> <span class="n">create</span><span class="o">-</span><span class="n">node</span> \
+<span class="o">&lt;</span><span class="n">node1</span> <span class="n">internal</span> <span class="n">IP</span> <span class="n">address</span><span class="o">&gt;</span> \
+<span class="o">&lt;</span><span class="n">node1</span> <span class="n">external</span> <span class="n">IP</span> <span class="n">address</span><span class="o">&gt;</span> \
+<span class="o">&lt;</span><span class="n">node1</span> <span class="n">hostname</span><span class="o">&gt;</span> \
+<span class="o">&lt;</span><span class="n">other</span> <span class="n">common</span> <span class="n">names</span> <span class="k">for</span> <span class="n">node1</span><span class="o">&gt;</span> \
+<span class="n">localhost</span> \
+<span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span> \
+<span class="o">&lt;</span><span class="n">load</span> <span class="n">balancer</span> <span class="n">IP</span> <span class="n">address</span><span class="o">&gt;</span> \
+<span class="o">&lt;</span><span class="n">load</span> <span class="n">balancer</span> <span class="n">hostname</span><span class="o">&gt;</span> \
+<span class="o">&lt;</span><span class="n">other</span> <span class="n">common</span> <span class="n">names</span> <span class="k">for</span> <span class="n">load</span> <span class="n">balancer</span> <span class="n">instances</span><span class="o">&gt;</span> \<span class="o">--</span><span class="n">certs</span><span class="o">-</span><span class="nb">dir</span><span class="o">=</span><span class="n">certs</span> \<span class="o">--</span><span class="n">ca</span><span class="o">-</span><span class="n">key</span><span class="o">=</span><span class="n">my</span><span class="o">-</span><span class="n">safe</span><span class="o">-</span><span class="n">directory</span><span class="o">/</span><span class="n">ca</span><span class="o">.</span><span class="n">key</span>
+</pre></div>
+</div>
+<p>4.创建节点证书目录:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssh</span> <span class="o">&lt;</span><span class="n">username</span><span class="o">&gt;@&lt;</span><span class="n">node1</span> <span class="n">address</span><span class="o">&gt;</span> <span class="s2">&quot;mkdir certs&quot;</span>
+</pre></div>
+</div>
+<p>5.复制本地证书到节点证书目录:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">scp</span> <span class="n">certs</span><span class="o">/</span><span class="n">ca</span><span class="o">.</span><span class="n">crt</span> \
+<span class="n">certs</span><span class="o">/</span><span class="n">node</span><span class="o">.</span><span class="n">crt</span> \
+<span class="n">certs</span><span class="o">/</span><span class="n">node</span><span class="o">.</span><span class="n">key</span> \
+<span class="o">&lt;</span><span class="n">username</span><span class="o">&gt;@&lt;</span><span class="n">node1</span> <span class="n">address</span><span class="o">&gt;</span><span class="p">:</span><span class="o">~/</span><span class="n">certs</span>
+</pre></div>
+</div>
+<p>6.删除本地证书:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rm</span> <span class="n">certs</span><span class="o">/</span><span class="n">node</span><span class="o">.</span><span class="n">crt</span> <span class="n">certs</span><span class="o">/</span><span class="n">node</span><span class="o">.</span><span class="n">key</span>
+</pre></div>
+</div>
+<p>7.重复2-6步骤直到把所有节点的证书都生成并考到响应位置，最后一个节点可以省略第6步。
+8.创建客户端证书给root用户:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cockroach</span> <span class="n">cert</span> <span class="n">create</span><span class="o">-</span><span class="n">client</span> \
+<span class="n">root</span> \<span class="o">--</span><span class="n">certs</span><span class="o">-</span><span class="nb">dir</span><span class="o">=</span><span class="n">certs</span> \<span class="o">--</span><span class="n">ca</span><span class="o">-</span><span class="n">key</span><span class="o">=</span><span class="n">my</span><span class="o">-</span><span class="n">safe</span><span class="o">-</span><span class="n">directory</span><span class="o">/</span><span class="n">ca</span><span class="o">.</span><span class="n">key</span>
+</pre></div>
+</div>
+<p>9.到各个节点启动进程:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cockroach</span> <span class="n">start</span> \<span class="o">--</span><span class="n">certs</span><span class="o">-</span><span class="nb">dir</span><span class="o">=</span><span class="n">certs</span> <span class="o">--</span><span class="n">store</span><span class="o">=</span><span class="n">node1</span> \<span class="o">--</span><span class="n">advertise</span><span class="o">-</span><span class="n">addr</span><span class="o">=&lt;</span><span class="n">node1</span> <span class="n">address</span><span class="o">&gt;</span> \<span class="o">--</span><span class="n">join</span><span class="o">=&lt;</span><span class="n">node1</span> <span class="n">address</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">26257</span><span class="p">,</span><span class="o">&lt;</span><span class="n">node2</span> <span class="n">address</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">26257</span><span class="p">,</span><span class="o">&lt;</span><span class="n">node3</span> <span class="n">address</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">26257</span> \
+<span class="o">--</span><span class="n">cache</span><span class="o">=.</span><span class="mi">25</span> \ <span class="o">--</span><span class="nb">max</span><span class="o">-</span><span class="n">sql</span><span class="o">-</span><span class="n">memory</span><span class="o">=.</span><span class="mi">25</span> \ <span class="o">--</span><span class="n">background</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>3.启动集群<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>非安全模式:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cockroach</span> <span class="n">start</span> <span class="o">--</span><span class="n">insecure</span> <span class="o">--</span><span class="n">host</span><span class="o">=</span><span class="n">localhost</span>
 </pre></div>
@@ -178,11 +232,35 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id4">
-<h2>3.架构图<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><img alt="../_images/db_structure.jpeg" src="../_images/db_structure.jpeg" />
-</div></blockquote>
+<div class="section" id="id5">
+<h2>4.移除和退役节点<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>1.移除节点:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#非安全模式</span>
+<span class="n">cockroach</span> <span class="n">quit</span> <span class="o">--</span><span class="n">decommission</span> <span class="o">--</span><span class="n">insecure</span> <span class="o">--</span><span class="n">host</span><span class="o">=&lt;</span><span class="n">address</span> <span class="n">of</span> <span class="n">node</span> <span class="n">to</span> <span class="n">remove</span><span class="o">&gt;</span>
+
+<span class="c1">#安全模式</span>
+<span class="n">cockroach</span> <span class="n">quit</span> <span class="o">--</span><span class="n">decommission</span> <span class="o">--</span><span class="n">certs</span><span class="o">-</span><span class="nb">dir</span><span class="o">=</span><span class="n">certs</span> <span class="o">--</span><span class="n">host</span><span class="o">=&lt;</span><span class="n">address</span> <span class="n">of</span> <span class="n">node</span> <span class="n">to</span> <span class="n">remove</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>2.退役节点:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#非安全模式</span>
+<span class="n">cockroach</span> <span class="n">node</span> <span class="n">decommission</span> <span class="o">&lt;</span><span class="n">节点序号</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">insecure</span> <span class="o">--</span><span class="n">host</span><span class="o">=&lt;</span><span class="n">address</span> <span class="n">of</span> <span class="n">live</span> <span class="n">node</span><span class="o">&gt;</span>
+
+<span class="c1">#安全模式</span>
+<span class="n">cockroach</span> <span class="n">node</span> <span class="n">decommission</span> <span class="o">&lt;</span><span class="n">节点序号</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">certs</span><span class="o">-</span><span class="nb">dir</span><span class="o">=</span><span class="n">certs</span> <span class="o">--</span><span class="n">host</span><span class="o">=&lt;</span><span class="n">address</span> <span class="n">of</span> <span class="n">live</span> <span class="n">node</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tpcc">
+<h2>5.测试tpcc<a class="headerlink" href="#tpcc" title="Permalink to this headline">¶</a></h2>
+<p>1.初始化tpcc:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cockroach</span> <span class="n">workload</span> <span class="n">init</span> <span class="n">tpcc</span> <span class="o">--</span><span class="n">warehouses</span><span class="o">=</span><span class="mi">100</span> <span class="s1">&#39;postgresql://root@10.1.163.100:26257/tpcc?sslmode=require&amp;sslrootcert=/root/certs/ca.crt&amp;sslcert=/root/certs/client.root.crt&amp;sslkey=/root/certs/client.root.key&#39;</span>
+</pre></div>
+</div>
+<p>2.运行:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nohup</span> <span class="n">cockroach</span> <span class="n">workload</span> <span class="n">run</span> <span class="n">tpcc</span> <span class="o">--</span><span class="n">duration</span><span class="o">=</span><span class="mi">2</span><span class="n">h</span> <span class="o">--</span><span class="n">warehouses</span><span class="o">=</span><span class="mi">100</span> <span class="s1">&#39;postgresql://root@10.1.163.100:26257/tpcc?sslmode=require&amp;sslrootcert=/root/certs/ca.crt&amp;sslcert=/root/certs/client.root.crt&amp;sslkey=/root/certs/client.root.key&#39;</span> <span class="o">&amp;&gt;</span> <span class="n">test_0113</span><span class="o">.</span><span class="n">log</span> <span class="o">&amp;</span>
+</pre></div>
+</div>
 </div>
 </div>
 

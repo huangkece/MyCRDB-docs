@@ -8,7 +8,7 @@ CockroachDB是一个分布式的SQL数据库。它建立在支持事务且具有
 
 CockroachDB灵感来源于Google的Spanner和F1技术，是一个完全开源的技术实现方案。
 
-CockroachDB特新
+CockroachDB特性
 -------------------------------
 
 1. 线性拓展
@@ -43,3 +43,8 @@ CockroachDB特新
 6. 可集群编排（容器管理）
 `````````````````````````````````
     可使用开源的Kubernetes编排系统进行管理、部署
+
+架构图
+-------------------------
+
+    .. image:: ../img/db_structure.jpeg

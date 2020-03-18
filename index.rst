@@ -7,11 +7,13 @@ Welcome to MyCRDB-docs's documentation!
 =======================================
 
 .. toctree::
-   :maxdepth: 6
+   :maxdepth: 10
 
    intro/index
    tutorials/index
+   exam/index
    FAQS/index
+   reference/index
 
 
 
